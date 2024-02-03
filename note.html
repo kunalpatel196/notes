@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes -> kp gurjar</title>
+    <link rel="icon" href="notes2.png">
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: 'poppins',sans-serif;
+        box-sizing: border-box;
+    }
+    .container {
+        width: 100%;
+        min-height: 100vh;
+        color: #fff;
+        padding-top: 4%;
+        padding-left: 10%;
+        background: linear-gradient(135deg, #cf9aff, #95c0ff);
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .container h1{
+        display: flex;
+        align-items:center;
+        font-size: 35px;
+        font-weight: 600;
+    }
+    .container h1 img{
+        height: 60px;
+        width: 60px;
+        margin-right: 15px;
+
+    }
+    .container button img{
+        width: 25px;
+        margin-right: 8px;
+    }
+    .container button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        background: linear-gradient(#9418fd,#571094);
+        text-decoration: none;
+        font-size: 16px;
+        outline: 0;
+        border: 0;
+        border-radius: 40px;
+        padding: 15px 25px;
+        margin: 30px 0 20px;
+        cursor: pointer;
+
+        
+    }
+    .input{
+        width: 100%;
+        position: relative;
+        max-width: 500px;
+        min-height: 150px;
+        background: #fff;
+        color: #333;
+        padding: 20px;
+        margin: 20px 0;
+        outline: 0;
+        border-radius: 5px
+    }
+    .input img{
+        position: absolute;
+        right: 15px;
+        bottom: 15px;
+        width: 30px;
+        height: 30px;
+        transition: all .3s ease-in-out;
+        cursor: pointer;
+    }
+   
+</style>
+<body>
+   
+    <div class="container">
+        <h2 align="center" style="color: rgb(64, 2, 2);"><b><i><u>kp gurjar</u></i></b></h2>
+        <h1><img src="notes.png" alt="note">Notes</h1>
+        <button class="btn"><img src="edit.png" alt="edit">create....</button>
+        <div class="notes-container">
+        
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const notesContainer = document.querySelector(".notes-container");
+        const createNoteButton = document.querySelector(".btn");
+
+        function showNotes() {
+            notesContainer.innerHTML = localStorage.getItem("notes") || "";
+        }
+
+        function updateStorage() {
+            localStorage.setItem("notes", notesContainer.innerHTML);
+        }
+
+        createNoteButton.addEventListener("click", () => {
+            const noteInput = document.createElement("div");
+            noteInput.className = "input";
+            noteInput.innerHTML = '<p contenteditable="true"></p><img src="bin.png" alt="delete">';
+            notesContainer.appendChild(noteInput);
+
+            const deleteButton = noteInput.querySelector("img");
+            deleteButton.addEventListener("click", () => {
+                noteInput.remove();
+                updateStorage();
+            });
+
+            const editableContent = noteInput.querySelector("p");
+            editableContent.addEventListener("keyup", () => {
+                updateStorage();
+            });
+        });
+
+        notesContainer.addEventListener("click", (e) => {
+            if (e.target.tagName === "IMG") {
+                e.target.parentElement.remove();
+                updateStorage();
+            }
+        });
+
+        showNotes();
+    });
+</script>
+</html>
